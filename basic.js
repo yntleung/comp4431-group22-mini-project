@@ -74,6 +74,7 @@ drumpad.addEventListener('click', function (event) {
         const newState = event.target.dataset.state === 'on' ? false : true;
         drumpadArray[row][col] = newState;
         event.target.dataset.state = newState ? 'on' : 'off';
+        if (newState === true) playSoundfontPreview(row);   // play soundfont once when clicked on
     }
 });
 
@@ -172,6 +173,14 @@ function playSound(note) {
             }, 200);
         }
     }
+}
+
+// Plays the soundfont once as a preview
+function playSoundfontPreview(row) {
+    MIDI.noteOn(0, pitches[row], velocities[row]);
+    setTimeout(function () {
+        MIDI.noteOff(0, pitches[row]);
+    }, 200);
 }
 
 // MIDI.js
